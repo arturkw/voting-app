@@ -1,0 +1,19 @@
+<configuration>
+
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} [%M:%L] - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <root level="info">
+        <appender-ref ref="CONSOLE" />
+    </root>
+
+    <!-- Logowanie dla SQL wykonywanego przez Slick -->
+    <logger name="slick.jdbc.JdbcBackend" level="DEBUG"/>
+
+    <!-- Logowanie dla SLF4J -->
+    <logger name="org.slf4j" level="WARN"/>
+
+</configuration>

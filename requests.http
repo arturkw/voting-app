@@ -1,0 +1,38 @@
+POST http://localhost:8080/api/vote
+Content-Type: application/json
+
+{
+  "candidateId": 1,
+  "voterId": 1
+}
+
+###
+
+GET http://localhost:8080/api/candidate/all
+Accept: application/json
+
+###
+
+GET http://localhost:8080/api/voter/all
+Accept: application/json
+
+###
+POST http://localhost:8080/api/voter
+Content-Type: application/json
+
+{
+  "firstName": "John",
+  "lastName": "Adams"
+}
+
+###
+POST http://localhost:8080/api/candidate
+Content-Type: application/json
+
+{
+  "firstName": "John",
+  "lastName": "Adams"
+}
+
+###
+
