@@ -9,13 +9,14 @@ import services.CandidateService
 import spray.json.DefaultJsonProtocol._
 import spray.json.{RootJsonFormat, enrichAny}
 
-import scala.concurrent.ExecutionContext
+import scala.concurrent.{ExecutionContext, ExecutionContextExecutor}
 import scala.util.{Failure, Success}
 
-class CandidateRoutes(candidateService: CandidateService)(implicit ec: ExecutionContext) {
+class CandidateRoutes(candidateService: CandidateService) {
 
-  implicit val candidateFormat: RootJsonFormat[CandidateInDto] = jsonFormat2(CandidateInDto)
-  implicit val candidateOutFormat: RootJsonFormat[CandidateOutDto] = jsonFormat4(CandidateOutDto)
+  private implicit val candidateFormat: RootJsonFormat[CandidateInDto] = jsonFormat2(CandidateInDto)
+  private implicit val candidateOutFormat: RootJsonFormat[CandidateOutDto] = jsonFormat4(CandidateOutDto)
+  private implicit val ex: ExecutionContextExecutor = ExecutionContext.global
 
   val routes: Route = {
     pathPrefix("candidate") {

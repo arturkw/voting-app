@@ -4,7 +4,7 @@ import model.Votes
 import slick.jdbc.H2Profile.api._
 import slick.lifted.TableQuery
 
-import scala.concurrent.{ExecutionContext, Future}
+import scala.concurrent.Future
 
 class VotesService(db: Database) {
 
@@ -27,7 +27,7 @@ class VotesService(db: Database) {
     db.run(votes.delete)
   }
 
-  def castVote(voterId: Long, candidateId: Long)(implicit ec: ExecutionContext): Future[Int] = {
+  def castVote(voterId: Long, candidateId: Long): Future[Int] = {
     val updateQuery =
       sqlu"""
       BEGIN;

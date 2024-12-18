@@ -20,7 +20,6 @@ class VotesRoutes(votesService: VotesService) {
     path("vote") {
       post {
         entity(as[VoteInDto]) { vote =>
-          // Wywołanie serwisu VotesService
           onComplete(votesService.castVote(vote.voterId, vote.candidateId)) {
             case Success(value) =>
               complete(HttpResponse(StatusCodes.OK, entity = HttpEntity.apply(s"Voter with id = ${vote.voterId} cast a vote for candidate ${vote.candidateId}")))

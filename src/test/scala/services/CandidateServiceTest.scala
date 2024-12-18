@@ -2,14 +2,12 @@ package services
 
 import com.typesafe.config.ConfigFactory
 import config.DbConfig
-import main.Main.system
 import model.{CandidateEntity, CandidateInDto}
 import org.scalatest._
 import org.scalatest.concurrent.ScalaFutures
 import org.scalatest.funsuite.AnyFunSuite
 import org.scalatest.matchers.must.Matchers
 import org.scalatest.matchers.should.Matchers.convertToAnyShouldWrapper
-import routes.{CandidateRoutes, VoterRoutes, VotesRoutes}
 import slick.jdbc.H2Profile.api._
 
 import scala.concurrent.{ExecutionContext, ExecutionContextExecutor}

@@ -11,11 +11,7 @@ import routes.{CandidateRoutes, VoterRoutes, VotesRoutes}
 import services.{CandidateService, VoterService, VotesService}
 import slick.jdbc.H2Profile.api._
 
-import scala.concurrent.ExecutionContextExecutor
-
 object Main {
-  private implicit val system: ActorSystem = ActorSystem("rest-system")
-  private implicit val executionContext: ExecutionContextExecutor = system.dispatcher
 
   def main(args: Array[String]): Unit = {
     val config = ConfigFactory.load()
@@ -41,12 +37,11 @@ object Main {
 
 class Main(dbConfig: DbConfig, route: Route) {
   private implicit val system: ActorSystem = ActorSystem("rest-system")
-  private implicit val executionContext: ExecutionContextExecutor = system.dispatcher
   private val logger: Logger = LoggerFactory.getLogger(Main.getClass)
 
   private def start(): Unit = {
     dbConfig.setupDb()
-    Http().bindAndHandle(route, "localhost", 8080)
+    Http().newServerAt("localhost", 8080).bind(route)
     logger.info("Server is running at http://localhost:8080")
   }
 

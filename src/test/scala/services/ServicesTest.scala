@@ -2,7 +2,7 @@ package services
 
 import com.typesafe.config.ConfigFactory
 import config.DbConfig
-import model.{CandidateEntity, CandidateInDto, CandidateOutDto, VoteEntity, VoterEntity, VoterInDto, VoterOutDto}
+import model.{CandidateInDto, CandidateOutDto}
 import org.scalatest._
 import org.scalatest.concurrent.ScalaFutures
 import org.scalatest.funsuite.AnyFunSuite
@@ -11,8 +11,6 @@ import org.scalatest.matchers.should.Matchers.convertToAnyShouldWrapper
 import slick.jdbc.H2Profile.api._
 
 import scala.concurrent._
-import scala.concurrent.duration._
-
 
 class ServicesTest extends AnyFunSuite with ScalaFutures with Matchers with BeforeAndAfterAll {
 
@@ -30,16 +28,6 @@ class ServicesTest extends AnyFunSuite with ScalaFutures with Matchers with Befo
     val votesService = new VotesService(db)
     val dbConfig = new DbConfig(candidateService, voterService, votesService, config)
     dbConfig.setupDb()
-  }
-
-
-  private def isTransactionCorrect(voters: Seq[VoterOutDto], votes: Seq[VoteEntity]): Boolean = {
-    votes.size === 1 &&
-      voters.size === 1 &&
-      votes.head.voterId === 1 &&
-      votes.head.candidateId === 1 &&
-      voters.head.id === 1 &&
-      voters.head.hasVoted === true
   }
 
   test("add candidate returns entity id") {

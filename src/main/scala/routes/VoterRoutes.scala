@@ -9,13 +9,14 @@ import services.VoterService
 import spray.json.DefaultJsonProtocol._
 import spray.json.{RootJsonFormat, enrichAny}
 
-import scala.concurrent.ExecutionContext
+import scala.concurrent.{ExecutionContext, ExecutionContextExecutor}
 import scala.util.{Failure, Success}
 
-class VoterRoutes(votersService: VoterService)(implicit ec: ExecutionContext) {
+class VoterRoutes(votersService: VoterService) {
 
   implicit val voterOutFormat: RootJsonFormat[VoterOutDto] = jsonFormat4(VoterOutDto)
   implicit val voterInFormat: RootJsonFormat[VoterInDto] = jsonFormat2(VoterInDto)
+  implicit val ex: ExecutionContextExecutor = ExecutionContext.global
 
   val routes: Route =
     pathPrefix("voter") {

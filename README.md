@@ -11,7 +11,13 @@ docker run --name my_postgres -e POSTGRES_USER=myuser -e POSTGRES_PASSWORD=mypas
 
 ### 2. Uruchomienie klasy startowej
 
-Aby uruchomić aplikację, przejdź do folderu projektu i uruchom klasę `main.Main` (to jest główny punkt wejścia do aplikacji, najlepiej uruchomić z Intellij):
+Aby uruchomić aplikację, przejdź do folderu projektu i uruchom klasę `main.Main` (to jest główny punkt wejścia do aplikacji, najlepiej uruchomić z Intellij).
+Domyślnie aplikacja czyści wszystie dostępne tabele podczas uruchamiania
+
+`application.conf:`
+```
+db.drop.data = true
+```
 
 ### 3. Uruchomienie demo
 
