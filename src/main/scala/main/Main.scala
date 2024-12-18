@@ -4,7 +4,7 @@ import akka.actor.ActorSystem
 import akka.http.scaladsl.Http
 import akka.http.scaladsl.server.Directives._
 import akka.http.scaladsl.server.Route
-import com.typesafe.config.{Config, ConfigFactory}
+import com.typesafe.config.ConfigFactory
 import config.DbConfig
 import org.slf4j.{Logger, LoggerFactory}
 import routes.{CandidateRoutes, VoterRoutes, VotesRoutes}
@@ -16,7 +16,6 @@ import scala.concurrent.ExecutionContextExecutor
 object Main {
   private implicit val system: ActorSystem = ActorSystem("rest-system")
   private implicit val executionContext: ExecutionContextExecutor = system.dispatcher
-  private val logger: Logger = LoggerFactory.getLogger(Main.getClass)
 
   def main(args: Array[String]): Unit = {
     val config = ConfigFactory.load()
@@ -29,7 +28,6 @@ object Main {
     val votesRoutes: VotesRoutes = new VotesRoutes(votesService)
     val voterRoutes: VoterRoutes = new VoterRoutes(voterService)
 
-    dbConfig.setupDb()
     val route: Route = pathPrefix("api") {
       concat(
         candidateRoutes.routes,
@@ -37,6 +35,17 @@ object Main {
         voterRoutes.routes
       )
     }
+    new Main(dbConfig, route).start()
+  }
+}
+
+class Main(dbConfig: DbConfig, route: Route) {
+  private implicit val system: ActorSystem = ActorSystem("rest-system")
+  private implicit val executionContext: ExecutionContextExecutor = system.dispatcher
+  private val logger: Logger = LoggerFactory.getLogger(Main.getClass)
+
+  private def start(): Unit = {
+    dbConfig.setupDb()
     Http().bindAndHandle(route, "localhost", 8080)
     logger.info("Server is running at http://localhost:8080")
   }
